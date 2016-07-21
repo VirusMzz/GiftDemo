@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GiftDisplayView">
+            <connections>
+                <outlet property="SendLB" destination="Mxt-L8-Rgq" id="Jdl-Mc-LBo"/>
+                <outlet property="comboLB" destination="kNN-Ng-1Vr" id="tKK-tN-h2U"/>
+                <outlet property="img" destination="I3y-mh-Fyp" id="e2p-VI-2Uh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="392" height="87"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MaC-Nf-Fvu">
+                    <rect key="frame" x="10" y="28" width="120" height="32"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send a gift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxt-L8-Rgq">
+                            <rect key="frame" x="10" y="8" width="70" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="95x-Ve-jFB"/>
+                        <constraint firstItem="Mxt-L8-Rgq" firstAttribute="leading" secondItem="MaC-Nf-Fvu" secondAttribute="leading" constant="10" id="Ecu-Kp-q7d"/>
+                        <constraint firstItem="Mxt-L8-Rgq" firstAttribute="centerY" secondItem="MaC-Nf-Fvu" secondAttribute="centerY" id="Vfx-lG-OoH"/>
+                        <constraint firstAttribute="width" constant="120" id="ZKK-lo-3BI"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gift-1" translatesAutoresizingMaskIntoConstraints="NO" id="I3y-mh-Fyp">
+                    <rect key="frame" x="120" y="14" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="cMz-H5-b0f"/>
+                        <constraint firstAttribute="width" constant="50" id="wto-AU-ewe"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNN-Ng-1Vr">
+                    <rect key="frame" x="175" y="34" width="60" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="RcY-if-xDw"/>
+                        <constraint firstAttribute="height" constant="21" id="cGX-0T-mOy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="MaC-Nf-Fvu" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="32c-q7-Zrb"/>
+                <constraint firstItem="MaC-Nf-Fvu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="GPP-jv-4eF"/>
+                <constraint firstItem="I3y-mh-Fyp" firstAttribute="centerY" secondItem="MaC-Nf-Fvu" secondAttribute="centerY" constant="-5" id="cJ0-OG-fas"/>
+                <constraint firstItem="I3y-mh-Fyp" firstAttribute="leading" secondItem="MaC-Nf-Fvu" secondAttribute="trailing" constant="-10" id="hPJ-7c-bXR"/>
+                <constraint firstItem="kNN-Ng-1Vr" firstAttribute="leading" secondItem="I3y-mh-Fyp" secondAttribute="trailing" constant="5" id="s8t-Mg-LVH"/>
+                <constraint firstItem="kNN-Ng-1Vr" firstAttribute="centerY" secondItem="I3y-mh-Fyp" secondAttribute="centerY" constant="5" id="sqa-eO-znk"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="451" y="437.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="gift-1" width="128" height="128"/>
+    </resources>
+</document>
