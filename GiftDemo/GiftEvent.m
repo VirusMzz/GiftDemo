@@ -17,7 +17,7 @@
 
 - (BOOL)shouldComboWith:(GiftEvent *)event{
 
-    return _senderId == event.senderId && _giftId == event.giftId;
+    return (_senderId == event.senderId) && (_giftId == event.giftId);
 }
 
 

@@ -22,6 +22,8 @@
 //当前在屏幕上显示的Views
 @property (nonatomic, strong)NSMutableArray *currentViews;
 
+@property (nonatomic, strong)GiftDisplayView *tempView;
+
 @end
 
 @implementation GiftView
@@ -36,6 +38,7 @@
 
     NSMutableArray *tempCombo = [NSMutableArray array];
     
+    //将
     if (self.eventQueue.count > 0) {
         
         for (GiftEvent *event  in self.eventQueue) {
@@ -49,7 +52,6 @@
         if (queueEvent) {
             queueEvent.giftCount += myevent.giftCount;
         }
-
     }
     else{
     
@@ -62,59 +64,66 @@
 /**
  *  NexEvent
  */
+#warning debug
 - (void)handleNextEvent{
 
     //查看是否有在队列中等待处理的Event
     GiftEvent *event = (GiftEvent *)[self popLastViewWithArray:self.eventQueue];
-    NSLog(@"%@ %s",event, __func__);
+    
     if (!event) {
         //没有在等待中的就返回
         return;
     }
     //如果有等待，与当前屏幕显示view进行比对是否需要combo
     else{
-    
-        if (self.currentViews.firstObject) {
+        
+        //是否需要combo
+        if (self.currentViews.count > 0) {
             
-            NSMutableArray *tempCurArr = [NSMutableArray array];
-            for (GiftDisplayView *view in self.currentViews) {
-                if ([[view initialGiftEvent:event] shouldComboWith:event]) {
-                    [tempCurArr addObject:view];
+            NSMutableArray *tempArr = [NSMutableArray array];
+            for (GiftDisplayView *displayView in self.currentViews) {
+                if ([displayView.event shouldComboWith:event]) {
+                    
+                    [tempArr addObject:displayView];
                 }
             }
             
-            GiftDisplayView *disView = tempCurArr.firstObject;
-            disView.finalCombo += event.giftCount;
-            disView.lastEventTime = [[NSDate date] timeIntervalSince1970];
-            return;
+            if (tempArr.count > 0) {
+                GiftDisplayView *disView = tempArr.firstObject;
+                disView.finalCombo += event.giftCount;
+                disView.lastEventTime = [[NSDate date] timeIntervalSince1970];
+                return;
+            }
+
         }
-        
+
+        //如果没有位置，加入队列等待
         if (self.availablePositions.count == 0) {
             [self.eventQueue addObject:event];
             return;
         }
         
-        NSNumber *position = self.availablePositions.lastObject;
+        int position = [self.availablePositions.lastObject intValue];
         [self.availablePositions removeLastObject];
-        
+        NSLog(@"**************  %ld", self.availablePositions.count);
         GiftDisplayView *displayView = [self dequeueResuableView];
         [self.currentViews addObject:displayView];
+        //装填数据
         [displayView initialGiftEvent:event];
         displayView.lastEventTime = [[NSDate date] timeIntervalSince1970];
-        displayView.currentCombo = 1;
         displayView.finalCombo = event.giftCount;
         
         CGRect frame = displayView.frame;
-        frame.origin.y = displayView.frame.size.height * (CGFloat)[position floatValue];
+        frame.origin.y = displayView.frame.size.height * (CGFloat)(position - 1);
         displayView.frame = frame;
-        displayView.tag = [position intValue];
+        displayView.tag = position;
         
         
         __block CGAffineTransform transform = displayView.transform;
         transform.tx = -200;
         displayView.transform = transform;
         
-        [self.superview addSubview:displayView];
+        [self addSubview:displayView];
         
         [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
             
@@ -127,7 +136,6 @@
             [self handleNextEvent];
             
         }];
-        
     }
 
 }
@@ -154,7 +162,7 @@
         //过滤掉dismiss的View
         self.currentViews = [self filterCurrentViews:self.currentViews andView:view];
         //恢复位置标记
-        NSString *tagNum = [NSString stringWithFormat:@"%ld",(long)view.tag];
+        NSNumber *tagNum = [NSNumber numberWithInteger:view.tag];
         [self.availablePositions addObject:tagNum];
         [view prepareForRuse];
         [self enqueueResuableView:view];
@@ -169,21 +177,21 @@
 - (GiftDisplayView *)dequeueResuableView{
 
     GiftDisplayView *view = (GiftDisplayView *)[self popLastViewWithArray:self.reusableViews];
-    NSLog(@"%@ %s",view, __func__);
+//    NSLog(@"reuseView = %@ %s\n",view, __func__);
     if (view) {
         return view;
     }
     else{
     
-        GiftDisplayView *tempView = [[GiftDisplayView alloc]initWithFrame:CGRectMake(0, 0, 100, 60)];
+        self.tempView = [[GiftDisplayView alloc]initWithFrame:CGRectMake(0, 0, 200, 60)];
         
         __weak typeof(self) weakSelf = self;
-        view.needDismiss = ^(GiftDisplayView *view){
-        
+        [self.tempView addDismissHandler:^(GiftDisplayView *view) {
+            
             [weakSelf dismissView:view];
-        };
+        }];
         
-        return tempView;
+        return self.tempView;
     }
     
 }
@@ -227,7 +235,7 @@
         
         id object = arr.lastObject;
         [arr removeLastObject];
-        NSLog(@"%@",object);
+//        NSLog(@"%@",object);
         return object;
     }
     else{

@@ -15,6 +15,7 @@ typedef void(^dismissHandler)(GiftDisplayView *view);
 @class GiftEvent;
 
 @interface GiftDisplayView : UIView
+@property (strong, nonatomic) IBOutlet UIView *selfView;
 
 @property (weak, nonatomic) IBOutlet UILabel *SendLB;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
@@ -25,11 +26,13 @@ typedef void(^dismissHandler)(GiftDisplayView *view);
 @property (nonatomic, assign)NSTimeInterval lastEventTime;
 
 @property (nonatomic, strong)GiftEvent *event;
-@property (nonatomic, copy)dismissHandler needDismiss;
+//结束回调消失
+@property (nonatomic, copy)dismissHandler dismissHandler;
 
 
 - (void)prepareForRuse;
 - (void)startAnimationCombo;
-- (GiftEvent *)initialGiftEvent:(GiftEvent *)event;
+- (void)initialGiftEvent:(GiftEvent *)event;
+- (void)addDismissHandler:(dismissHandler)handler;
 
 @end
