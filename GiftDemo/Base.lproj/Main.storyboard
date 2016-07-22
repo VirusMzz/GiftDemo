@@ -39,9 +39,18 @@
                                     <action selector="sendGift2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hfs-gl-abz"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wII-UJ-YzN">
+                                <rect key="frame" x="420" y="550" width="60" height="30"/>
+                                <state key="normal" title="SendGift"/>
+                                <connections>
+                                    <action selector="sendGift3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KpF-qz-K6A"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wII-UJ-YzN" firstAttribute="leading" secondItem="6zh-OC-HQS" secondAttribute="trailing" constant="8" id="01t-x8-JXu"/>
+                            <constraint firstItem="wII-UJ-YzN" firstAttribute="baseline" secondItem="6zh-OC-HQS" secondAttribute="baseline" id="84E-iC-uTp"/>
                             <constraint firstItem="6zh-OC-HQS" firstAttribute="leading" secondItem="7aP-07-w5A" secondAttribute="trailing" constant="22" id="E6n-35-K62"/>
                             <constraint firstItem="7aP-07-w5A" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EtL-Nj-mJW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7aP-07-w5A" secondAttribute="bottom" constant="20" id="hlz-oM-aFD"/>

@@ -58,9 +58,12 @@
 
 //开始循环combo动画
 - (void)startAnimationCombo{
-
+    
+    //如果当前finalCombo 大于20 跳过一半开始动画
+    self.finalCombo / 2 > 10? self.currentCombo = self.finalCombo / 2 - 1: self.currentCombo;
+    
     if (!mytimer) {
-        mytimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(tick:) userInfo:nil repeats:true];
+        mytimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(tick:) userInfo:nil repeats:true];
         [[NSRunLoop currentRunLoop] addTimer:mytimer forMode:NSRunLoopCommonModes];
     }
     else{
@@ -72,6 +75,7 @@
 //循环
 - (void)tick:(NSTimer *)timer{
 
+    
     //如果当前时间 和上次事件时间差 > maxstaySec -> 终止动画 -> dismiss 自己
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     //如果超时，就dismiss 并返回
@@ -92,12 +96,14 @@
             return;
         }
         else{
-            
-            //否则 combo+1
+        
             self.currentCombo += 1;
+
+            NSLog(@"%d", self.currentCombo);
             [UIView animateWithDuration:0.1 animations:^{
                 
                 self.comboLB.transform = CGAffineTransformMakeScale(2, 2);
+
                 self.comboLB.text = [NSString stringWithFormat:@"x%d",self.currentCombo];
                 
             }completion:^(BOOL finished) {

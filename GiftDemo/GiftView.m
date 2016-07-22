@@ -51,6 +51,8 @@
         GiftEvent *queueEvent = tempCombo.firstObject;
         if (queueEvent) {
             queueEvent.giftCount += myevent.giftCount;
+            
+            NSLog(@"礼物数:%d", queueEvent.giftCount);
         }
     }
     else{
@@ -64,19 +66,18 @@
 /**
  *  NexEvent
  */
-#warning debug
 - (void)handleNextEvent{
 
     //查看是否有在队列中等待处理的Event
     GiftEvent *event = (GiftEvent *)[self popLastViewWithArray:self.eventQueue];
-    
+
+    NSLog(@"=====当前等待任务%lu",(unsigned long)self.eventQueue.count);
     if (!event) {
         //没有在等待中的就返回
         return;
     }
     //如果有等待，与当前屏幕显示view进行比对是否需要combo
     else{
-        
         //是否需要combo
         if (self.currentViews.count > 0) {
             
@@ -112,6 +113,8 @@
         [displayView initialGiftEvent:event];
         displayView.lastEventTime = [[NSDate date] timeIntervalSince1970];
         displayView.finalCombo = event.giftCount;
+        
+
         
         CGRect frame = displayView.frame;
         frame.origin.y = displayView.frame.size.height * (CGFloat)(position - 1);

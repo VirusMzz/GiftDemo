@@ -50,5 +50,14 @@
     
     [self.GiftAreaView pushGiftEvent:self.event];
 }
+- (IBAction)sendGift3:(UIButton *)sender {
+    
+    NSDictionary *dic = @{@"senderId":@"123", @"giftId":@"3", @"giftCount":@"1"};
+    self.event = [[GiftEvent alloc]init];
+    [self.event setValuesForKeysWithDictionary:dic];
+    
+    [self.GiftAreaView pushGiftEvent:self.event];
+    
+}
 
 @end
