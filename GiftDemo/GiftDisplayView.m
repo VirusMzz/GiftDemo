@@ -25,8 +25,8 @@
     if (self) {
         //设置礼物持续时间
         maximumStaySeconds = 5;
-        self.currentCombo = 0;
-        self.finalCombo = 0;
+        self.currentCombo = 1;
+        self.finalCombo = 1;
         
         NSArray *arr = [[NSBundle mainBundle] loadNibNamed:@"GiftDisplayView" owner:self options:nil];
         
@@ -90,7 +90,7 @@
         }
     }
     else{
-        //如果当前combo < finalcombo 就return
+        //如果当前combo <= finalcombo 就return
         if((self.finalCombo <= self.currentCombo)){
             
             return;

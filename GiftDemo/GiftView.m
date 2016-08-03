@@ -35,24 +35,21 @@
  *  @param event 接收到的礼物事件模型
  */
 - (void)pushGiftEvent:(GiftEvent *)myevent{
-
-    NSMutableArray *tempCombo = [NSMutableArray array];
     
-    //将
+    //将emit的event 与等待事件对比 如需combo count++
     if (self.eventQueue.count > 0) {
         
         for (GiftEvent *event  in self.eventQueue) {
             
             BOOL shoulCombo = [myevent shouldComboWith:event];
             if (shoulCombo) {
-                [tempCombo addObject:event];
-            }
-        }
-        GiftEvent *queueEvent = tempCombo.firstObject;
-        if (queueEvent) {
-            queueEvent.giftCount += myevent.giftCount;
             
-            NSLog(@"礼物数:%d", queueEvent.giftCount);
+                event.giftCount += myevent.giftCount;
+            }
+            else{
+            
+                [self.eventQueue addObject:myevent];
+            }
         }
     }
     else{
@@ -71,7 +68,6 @@
     //查看是否有在队列中等待处理的Event
     GiftEvent *event = (GiftEvent *)[self popLastViewWithArray:self.eventQueue];
 
-    NSLog(@"=====当前等待任务%lu",(unsigned long)self.eventQueue.count);
     if (!event) {
         //没有在等待中的就返回
         return;
@@ -81,21 +77,15 @@
         //是否需要combo
         if (self.currentViews.count > 0) {
             
-            NSMutableArray *tempArr = [NSMutableArray array];
             for (GiftDisplayView *displayView in self.currentViews) {
                 if ([displayView.event shouldComboWith:event]) {
                     
-                    [tempArr addObject:displayView];
+                    displayView.finalCombo += event.giftCount;
+                    displayView.lastEventTime = [[NSDate date] timeIntervalSince1970];
+        
+                    return;
                 }
             }
-            
-            if (tempArr.count > 0) {
-                GiftDisplayView *disView = tempArr.firstObject;
-                disView.finalCombo += event.giftCount;
-                disView.lastEventTime = [[NSDate date] timeIntervalSince1970];
-                return;
-            }
-
         }
 
         //如果没有位置，加入队列等待
@@ -106,16 +96,15 @@
         
         int position = [self.availablePositions.lastObject intValue];
         [self.availablePositions removeLastObject];
-        NSLog(@"**************  %ld", self.availablePositions.count);
         GiftDisplayView *displayView = [self dequeueResuableView];
         [self.currentViews addObject:displayView];
         //装填数据
         [displayView initialGiftEvent:event];
+        displayView.currentCombo = 1;
         displayView.lastEventTime = [[NSDate date] timeIntervalSince1970];
         displayView.finalCombo = event.giftCount;
         
 
-        
         CGRect frame = displayView.frame;
         frame.origin.y = displayView.frame.size.height * (CGFloat)(position - 1);
         displayView.frame = frame;
